@@ -63,6 +63,7 @@ all_fid = {
     "[327]歪歪大王": "73809778",
     "[327]小点点": "78282886",
     "[327]祈愿婷": "73023472",
+    "[122]曦 城": "444513087",
     "[327]软糯香甜": "50540374",
     "[H2O]升职發财饺": "78495863",
     "[327]对面的女孩看过来呀看过来": "73793064",
@@ -129,7 +130,7 @@ all_cdk = [
     # "TILI520", "WJDRtaptap", "666WJDR2024", "WJDRTB6666", "WOAIWJDR",
 
     # 节日
-    "WJDR280W",
+    "VWO50",
 ]
 
 headers = {
@@ -187,6 +188,11 @@ for player_name, fid in all_fid.items():
                 if response_data["msg"] == "RECEIVED.":
                     totol_error_gift += 1
                     print(f"Already redeemed {cdk}")
+                    # print("gift response_data: " + str(response_data))
+                    break
+                elif response_data["msg"] == "STOVE_LV ERROR.":
+                    totol_error_gift += 1
+                    print(f"Player {player_name}:{fid} level not up to standard")
                     # print("gift response_data: " + str(response_data))
                     break
                 elif response_data["msg"] == "SUCCESS":
