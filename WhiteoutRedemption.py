@@ -29,7 +29,7 @@ def login_fid(headers, fid):
     }
 
     data = generate_sign(data)
-    # print("[POST]\n" + data)
+    # print(f"[POST]\n{data}")
 
     url_login = "https://wjdr-giftcode-api.campfiregames.cn/api/player"
 
@@ -186,6 +186,11 @@ for player_name, fid in all_fid.items():
                 if response_data["msg"] == "RECEIVED.":
                     totol_error_gift += 1
                     print(f"Already redeemed {cdk}")
+                    # print("gift response_data: " + str(response_data))
+                    break
+                elif response_data["msg"] == "TIME ERROR.":
+                    totol_error_gift += 1
+                    print(f"CdKey {cdk} is expired")
                     # print("gift response_data: " + str(response_data))
                     break
                 elif response_data["msg"] == "STOVE_LV ERROR.":
