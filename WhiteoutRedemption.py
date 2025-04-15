@@ -38,6 +38,7 @@ def login_fid(headers, fid):
         headers=headers,
         data=data
     )
+    # print(response.headers)
     response_data = response.json() if response.status_code == 200 else { "msg": "" }
     # print(response_data)
     return response_data
@@ -48,6 +49,7 @@ all_fid = {
     "平生我自知": "400376643",
     "草堂春睡足": "61685237",
     "窗外日迟迟": "400474481",
+    "抖音185": "470374425",
     "南光太郎": "50393103",
     "柠小檬": "51917092",
     "林七七": "75136533",
@@ -128,7 +130,7 @@ all_cdk = [
     # "TILI520", "WJDRtaptap", "666WJDR2024", "WJDRTB6666", "WOAIWJDR",
 
     # 节日
-    "WJDR290W",
+    "JINLI520",
 ]
 
 headers = {
@@ -183,7 +185,7 @@ for player_name, fid in all_fid.items():
                         time.sleep(sleep_time)
                     continue
                 # print(response_data)
-                if response_data["msg"] == "RECEIVED.":
+                if response_data["msg"] == "RECEIVED." or response_data["msg"] == "USED.":
                     totol_error_gift += 1
                     print(f"Already redeemed {cdk}")
                     # print("gift response_data: " + str(response_data))
