@@ -1,3 +1,6 @@
 [submodule "js-deobfuscator"]
 	path = js-deobfuscator
 	url = https://github.com/kuizuo/js-deobfuscator.git
+[submodule "ddddocr"]
+	path = ddddocr
+	url = https://github.com/sml2h3/ddddocr.git
