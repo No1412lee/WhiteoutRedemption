@@ -57,33 +57,37 @@ def login_fid(headers, fid):
     return response_data
 
 def get_captcha_code(headers, fid):
-    data = {
-        "fid": fid,
-        "time": str(timestamp_ms),
-        "init": 0,
-    }
+    while True:
+        timestamp_ms = int(datetime.now().timestamp() * 1000)
+        data = {
+            "fid": fid,
+            "time": str(timestamp_ms),
+            "init": 0,
+        }
 
-    data = generate_sign(data)
-    # print(f"[POST]\n{data}")
+        data = generate_sign(data)
+        # print(f"[POST]\n{data}")
 
-    url_captcha = "https://wjdr-giftcode-api.campfiregames.cn/api/captcha"
-    response = requests.post(
-        url_captcha,
-        headers=headers,
-        data=data
-    )
-    # print(response.headers)
-    response_data = response.json() if response.status_code == 200 else { "msg": "" }
-    
-    captcha_img_base64 = response_data['data']['img']
-    # print(captcha_img)
-    captcha_img_base64 = captcha_img_base64[len("data:image/jpeg;base64"):]
-    captcha_img_bytes = base64.b64decode(captcha_img_base64)
-    # print(len(captcha_img_bytes))
-    captcha_img = Image.open(BytesIO(captcha_img_bytes))
-    result = ocr.classification(captcha_img)
-    captcha_img.save(os.path.join(ca_path, result + ".jpeg"))
-    return result
+        url_captcha = "https://wjdr-giftcode-api.campfiregames.cn/api/captcha"
+        response = requests.post(
+            url_captcha,
+            headers=headers,
+            data=data
+        )
+        # print(response.headers)
+        response_data = response.json() if response.status_code == 200 else { "msg": "" }
+        
+        if 'img' in response_data['data']:
+            captcha_img_base64 = response_data['data']['img']
+            # print(captcha_img)
+            captcha_img_base64 = captcha_img_base64[len("data:image/jpeg;base64"):]
+            captcha_img_bytes = base64.b64decode(captcha_img_base64)
+            # print(len(captcha_img_bytes))
+            captcha_img = Image.open(BytesIO(captcha_img_bytes))
+            result = ocr.classification(captcha_img)
+            captcha_img.save(os.path.join(ca_path, result + ".jpeg"))
+            return result
+        time.sleep(5)
 
 all_fid = {
     "梦浮生": "74907513",
@@ -130,7 +134,7 @@ all_cdk = [
     # "TILI520", "WJDRtaptap", "666WJDR2024", "WJDRTB6666", "WOAIWJDR",
 
     # 节日
-    "WJDR300W",
+    "520520",
 ]
 
 headers = {
@@ -159,11 +163,12 @@ for player_name, fid in all_fid.items():
         for cdk in all_cdk:
             retry = 0
             while retry < retry_limit:
+                captcha_code = get_captcha_code(headers, fid)
                 timestamp_ms = int(datetime.now().timestamp() * 1000)
                 data = {
                     "fid": fid,
                     "cdk": cdk,
-                    "captcha_code": get_captcha_code(headers, fid),
+                    "captcha_code": captcha_code,
                     "time": str(timestamp_ms)
                 }
                 data = generate_sign(data)
@@ -208,7 +213,11 @@ for player_name, fid in all_fid.items():
                     break
                 elif response_data["msg"] == "CAPTCHA CHECK ERROR.":
                     print(f"{response_data}")
-                    time.sleep(sleep_time)
+                    time.sleep(5)
+                    retry -= 1
+                elif response_data["msg"] == "CAPTCHA CHECK TOO FREQUENT.":
+                    print(f"{response_data}")
+                    time.sleep(10)
                     retry -= 1
                 else:
                     print(f"{response_data}")
