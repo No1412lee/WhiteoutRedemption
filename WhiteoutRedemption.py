@@ -57,7 +57,7 @@ def login_fid(headers, fid):
     return response_data
 
 def get_captcha_code(headers, fid):
-    while True:
+    for i in range(5):
         timestamp_ms = int(datetime.now().timestamp() * 1000)
         data = {
             "fid": fid,
@@ -87,35 +87,24 @@ def get_captcha_code(headers, fid):
             result = ocr.classification(captcha_img)
             captcha_img.save(os.path.join(ca_path, result + ".jpeg"))
             return result
-        time.sleep(5)
+        print(response_data)
+        time.sleep(5 * (i + 1))
 
 all_fid = {
     "梦浮生": "74907513",
     "大梦谁先觉": "398918200",
     "平生我自知": "400376643",
-    "窗外日迟迟": "400474481",
-    "草堂春睡足": "416712998",
+    "[327]窗外日迟迟": "400474481",
+    "窗外日迟迟": "546559268",
+    "草堂春睡足": "548984177",
     "托尼带水": "61685237",
-    "抖音185_1": "470374425",
-    "抖音185_2": "477066852",
     "[327]亚历山大": "77512758",
     "[327]祈愿婷": "73023472",
-    "[122]曦 城": "444513087",
 
-    "[999]珺璟如晔": "169564351",
-    "[Koi]浮生若梦": "228921398",
-    "[Koi]清风明月": "169858869",
-    "[Koi]关你西红柿呀": "169875645",
     "[Koi]栗 子": "168531895",
-    "[Koi]随便玩玩玩": "170269383",
-    "[Koi]爱吃草莓的小西瓜": "171660947",
-    "[Koi]无名小镇（种田版）": "170121987",
-    "[Koi]走向复兴": "169581006",
-    "[Koi]倚楼听风雨": "168712439",
     "[Koi]猛踹瘸子好腿": "170629706",
     "[CNH]火凤燎原": "170415993",
     "[jmf]中系少女豆腐酱": "169727484",
-    "Gabrielle": "170941105",
 }
 all_cdk = [
     # 通用
@@ -126,7 +115,7 @@ all_cdk = [
     # "TILI520", "WJDRtaptap", "666WJDR2024", "WJDRTB6666", "WOAIWJDR",
 
     # 节日
-    "520520",
+    "WJDR310W",
 ]
 
 headers = {
