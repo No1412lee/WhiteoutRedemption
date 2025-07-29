@@ -112,6 +112,7 @@ all_cdk = [
     # "FH666", "FH777", "FH888", "FH6666", "FH7777", "FH8888",
     # "WZY666", "WZY777", "WZY888",
     # "TILI520", "WJDRtaptap", "666WJDR2024", "WJDRTB6666", "WOAIWJDR",
+    # "LYJ666", "LYJ777", "LYJ888",
 
     # 节日
     "WJDR310W",
