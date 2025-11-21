@@ -107,6 +107,7 @@ all_fid = {
     "未转头时皆梦": "73023472",
     "696曦城": "576474429",
     "489曦城": "444513087",
+    "489曦城2": "771634341",
 
     "[Koi]栗 子": "168531895",
     "[Koi]猛踹瘸子好腿": "170629706",
@@ -205,7 +206,7 @@ for player_name, fid in all_fid.items():
                     retry -= 1
                 elif response_data["msg"] == "CAPTCHA CHECK TOO FREQUENT.":
                     print(f"{response_data}")
-                    time.sleep(10)
+                    time.sleep(30)
                     retry -= 1
                 else:
                     print(f"{response_data}")
